@@ -1,4 +1,5 @@
-// Fills the database with demo data: `npm run seed`
+// Demo data. Run manually with `npm run seed`, or it is loaded
+// automatically on first start when the database is empty.
 require("dotenv").config();
 const mongoose = require("mongoose");
 const User = require("./models/User");
@@ -7,8 +8,7 @@ const Application = require("./models/Application");
 
 const days = (n) => new Date(Date.now() + n * 24 * 60 * 60 * 1000);
 
-async function seed() {
-  await mongoose.connect(process.env.MONGO_URI);
+async function seedDemoData() {
   await Promise.all([User.deleteMany({}), Drive.deleteMany({}), Application.deleteMany({})]);
 
   const admin = await User.create({ name: "Placement Officer", email: "admin@hiretrack.dev", password: "admin123", role: "admin" });
@@ -75,13 +75,21 @@ async function seed() {
     app(students[3], infosys, "interview"),
   ]);
 
-  console.log("Seed complete.");
+  console.log("Demo data loaded.");
   console.log("Admin   -> admin@hiretrack.dev / admin123");
   console.log("Student -> ananya@hiretrack.dev / student123");
-  await mongoose.disconnect();
 }
 
-seed().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+module.exports = { seedDemoData };
+
+// When run directly (`npm run seed`): connect, reset, seed, disconnect.
+if (require.main === module) {
+  mongoose
+    .connect(process.env.MONGO_URI)
+    .then(seedDemoData)
+    .then(() => mongoose.disconnect())
+    .catch((err) => {
+      console.error(err);
+      process.exit(1);
+    });
+}

@@ -104,6 +104,16 @@ npm run dev                 # app on http://localhost:5173
 docker compose up --build
 ```
 
+### Deploy (one service: API + React app)
+
+The Express server also serves the built React app, so the whole project runs as a single web service (e.g. on Render):
+
+- **Build command:** `npm run build`
+- **Start command:** `npm start`
+- **Environment variables:** `MONGO_URI` (MongoDB Atlas connection string), `JWT_SECRET`
+
+On first start with an empty database, demo data is loaded automatically.
+
 ### Tests
 
 ```bash

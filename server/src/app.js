@@ -1,3 +1,5 @@
+const path = require("path");
+const fs = require("fs");
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -21,6 +23,13 @@ app.use("/api/auth", authRoutes);
 app.use("/api/drives", driveRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/stats", statsRoutes);
+
+// In production, serve the built React app from the same server.
+const clientDist = path.join(__dirname, "..", "..", "client", "dist");
+if (fs.existsSync(clientDist)) {
+  app.use(express.static(clientDist));
+  app.get(/^\/(?!api).*/, (req, res) => res.sendFile(path.join(clientDist, "index.html")));
+}
 
 app.use(notFound);
 app.use(errorHandler);
