@@ -4,6 +4,9 @@
 
 HireTrack is a full-stack web app that digitises a college's placement process. The **placement officer (admin)** posts company drives with eligibility rules. **Students** see only the drives they qualify for, apply in one click and track their status. Admins shortlist candidates, export lists to CSV and see live placement statistics.
 
+**🔗 Live demo: [hiretrack-2.onrender.com](https://hiretrack-2.onrender.com)** (free hosting, so the first load can take up to a minute)
+Demo logins: Admin `admin@hiretrack.dev` / `admin123` · Student `ananya@hiretrack.dev` / `student123`
+
 ![Student drives](docs/student-drives.png)
 
 ## Features
